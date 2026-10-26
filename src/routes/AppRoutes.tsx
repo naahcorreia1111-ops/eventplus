@@ -7,6 +7,7 @@ import Login from "../pages/Login/Login";
 import Usuarios from "../pages/Usuarios/Usuarios";
 import TipoEvento from "../pages/TipoEvento/TipoEvento";
 import { useAuth, perfilEhAdministrador } from "../context/auth";
+import TipoUsuario from "../pages/TipoUsuario/TipoUsuario";
 
 function AppRoutes() {
     const { autenticado, perfil, carregandoSessao } = useAuth();
@@ -41,6 +42,15 @@ function AppRoutes() {
                 element={
                     autenticado && administrador
                         ? <TipoEvento />
+                        : <Navigate to="/home" replace />
+                }
+            />
+
+            <Route
+                path="/tipousuario"
+                element={
+                    autenticado && administrador
+                        ? <TipoUsuario />
                         : <Navigate to="/home" replace />
                 }
             />

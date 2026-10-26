@@ -1,12 +1,10 @@
-
-
-
 import { axiosInstance } from "./api";
 
 import type {
     Comentario,
     ComentarioPayload,
     Evento,
+    Instituicao,
     LoginPayload,
     LoginResponse,
     MensagemModeracao,
@@ -18,6 +16,44 @@ import type {
     UsuarioPayLoad
 } from "../types/api";
 
+export interface EventoPayload {
+    nome: string;
+    descricao: string;
+    dataEvento: string;
+    idTipoEvento: string;
+    idInstituicao: string;
+    arquivoImagem?: File | null;
+    imagemUrl?: string | null;
+}
+
+function eventoFormData(payload: EventoPayload) {
+    const formData = new FormData();
+    formData.append("Nome", payload.nome);
+    formData.append("Descricao", payload.descricao);
+    formData.append("DataEvento", payload.dataEvento);
+    formData.append("IdTipoEvento", payload.idTipoEvento || "");
+    formData.append("IdInstituicao", payload.idInstituicao || "");
+
+    if (payload.arquivoImagem) {
+        formData.append("ArquivoImagem", payload.arquivoImagem);
+    }
+    if (payload.imagemUrl) {
+        formData.append("ImagemUrl", payload.imagemUrl);
+    }
+
+    return formData;
+}
+
+function progressoUpload(onProgress?: (porcentagem: number) => void) {
+    return {
+        onUploadProgress: (progress: { loaded: number; total?: number }) => {
+            if (progress.total && onProgress) {
+                onProgress(Math.round((progress.loaded * 100) / progress.total));
+            }
+        }
+    };
+}
+
 export const authService = {
     async login(payload: LoginPayload) {
         const { data } = await axiosInstance.post<LoginResponse>(
@@ -28,6 +64,14 @@ export const authService = {
         return data;
     }
 };
+
+export const instituicaoService = {
+    async listar() {
+        const { data } = await axiosInstance.get<Instituicao[]>("Instituicao");
+        return data;
+    }
+};
+
 export const eventoService = {
     async listar() {
         const { data } = await axiosInstance.get<Evento[]>("Evento");
@@ -36,20 +80,39 @@ export const eventoService = {
 
     async listarProximos() {
         try {
-            // Tenta o endpoint padrão com PascalCase
             const { data } = await axiosInstance.get<Evento[]>("Evento/ListarProximos");
             return data;
         } catch {
-            // Se der 404, busca a lista completa e filtra/retorna
             const { data } = await axiosInstance.get<Evento[]>("Evento");
             return data;
         }
     },
 
-   async buscar(id: string) {
-    const { data } = await axiosInstance.get<Evento>(`Evento/${id}`);
-    return data;
-}
+    async buscar(id: string) {
+        const { data } = await axiosInstance.get<Evento>(`Evento/${id}`);
+        return data;
+    },
+
+    async cadastrar(payload: EventoPayload, onProgress?: (percentage: number) => void) {
+        const { data } = await axiosInstance.post<Evento>(
+            "Evento",
+            eventoFormData(payload),
+            progressoUpload(onProgress)
+        );
+        return data;
+    },
+
+    async atualizar(id: string, payload: EventoPayload, onProgress?: (percentage: number) => void) {
+        await axiosInstance.put(
+            `Evento/${id}`,
+            eventoFormData(payload),
+            progressoUpload(onProgress)
+        );
+    },
+
+    async excluir(id: string) {
+        await axiosInstance.delete(`Evento/${id}`);
+    }
 };
 
 export const comentarioService = {
@@ -125,17 +188,6 @@ export const usuarioService = {
     }
 };
 
-
-function tipoService<T extends { titulo: string }>(endpoint: string) {
-    return {
-        async listar() {
-            const { data } = await axiosInstance.get<T[]>(endpoint);
-            return data;
-        }
-    };
-}
-
-
 export const tipoEventoService = {
     async listar() {
         const { data } = await axiosInstance.get<TipoEvento[]>("TipoEvento");
@@ -163,5 +215,29 @@ export const tipoEventoService = {
     }
 };
 
+export const tipoUsuarioService = {
+    async listar() {
+        const { data } = await axiosInstance.get<TipoUsuario[]>(
+            "TipoUsuario"
+        );
 
-export const tipoUsuarioService = tipoService<TipoUsuario>("TipoUsuario");
+        return data;
+    },
+
+    async cadastrar(payload: { titulo: string }) {
+        const { data } = await axiosInstance.post<TipoUsuario>(
+            "TipoUsuario",
+            payload
+        );
+
+        return data;
+    },
+
+    async atualizar(id: string, payload: { titulo: string }) {
+        await axiosInstance.put(`TipoUsuario/${id}`, payload);
+    },
+
+    async excluir(id: string) {
+        await axiosInstance.delete(`TipoUsuario/${id}`);
+    }
+};

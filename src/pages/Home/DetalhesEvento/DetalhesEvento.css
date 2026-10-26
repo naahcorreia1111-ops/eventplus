@@ -1,0 +1,93 @@
+
+:root {
+    --cinza-claro: #ded9da;
+    --branco: #ffffff;
+    --cor-texto: #17143f;
+    --vermelho: #b51d44;
+    --vermelho-escuro: #821b47;
+}
+
+.detalhes-evento-pagina {
+    min-height: 80vh;
+    padding: 40px 0 64px;
+    background: var(--branco);
+}
+
+.detalhes-evento-container {
+    width: min(1000px, calc(100% - 48px));
+    margin: 0 auto;
+    color: var(--cor-texto);
+}
+
+.detalhes-evento-imagem {
+    display: block;
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.detalhes-evento-conteudo {
+    padding: 28px 0;
+}
+
+.detalhes-evento-id {
+    color: var(--vermelho-escuro);
+    font-size: 0.9rem;
+}
+
+.detalhes-evento-conteudo h1 {
+    margin-bottom: 24px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.detalhes-evento-abas {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--cinza-claro);
+}
+
+.detalhes-evento-abas button {
+    padding: 12px 4px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: var(--cor-texto);
+    font: inherit;
+    cursor: pointer;
+}
+
+.detalhes-evento-abas button.ativo {
+    border-bottom-color: var(--vermelho);
+    color: var(--vermelho);
+    font-weight: 600;
+}
+
+.detalhes-evento-descricao {
+    padding: 24px 0;
+    line-height: 1.7;
+}
+
+.detalhes-evento-descricao h2 {
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+}
+
+.detalhes-evento-container a {
+    color: var(--vermelho);
+}
+
+@media (max-width: 600px) {
+    .detalhes-evento-container {
+        width: calc(100% - 32px);
+    }
+
+    .detalhes-evento-conteudo h1 {
+        font-size: 1.6rem;
+    }
+
+    .detalhes-evento-imagem {
+        max-height: 260px;
+    }
+}

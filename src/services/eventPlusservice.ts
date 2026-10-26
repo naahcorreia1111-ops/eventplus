@@ -135,18 +135,26 @@ function tipoService<T extends { titulo: string }>(endpoint: string) {
     };
 }
 
+
 export const tipoEventoService = {
     async listar() {
         const { data } = await axiosInstance.get<TipoEvento[]>("TipoEvento");
         return data;
     },
 
-    async cadastrar(payload: { titulo: string }) {
-        const { data } = await axiosInstance.post<TipoEvento>("TipoEvento", payload);
+    async cadastrar(payload: { tituloTipoEvento: string }) {
+        const { data } = await axiosInstance.post<TipoEvento>(
+            "TipoEvento",
+            payload
+        );
+
         return data;
     },
 
-    async atualizar(id: string, payload: { titulo: string }) {
+    async atualizar(
+        id: string,
+        payload: { tituloTipoEvento: string }
+    ) {
         await axiosInstance.put(`TipoEvento/${id}`, payload);
     },
 
@@ -154,7 +162,6 @@ export const tipoEventoService = {
         await axiosInstance.delete(`TipoEvento/${id}`);
     }
 };
-
 
 
 export const tipoUsuarioService = tipoService<TipoUsuario>("TipoUsuario");

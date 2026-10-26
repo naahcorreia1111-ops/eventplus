@@ -94,7 +94,7 @@ const carregar = useCallback(async () => {
                                 titulo={evento.nome}
                                 imagem={evento.imagemUrl}
                                 descricao={evento.descricao}
-                                categoria={evento.idTipoEventoNavigation?.titulo}
+                                categoria={evento.idTipoEventoNavigation?.tituloTipoEvento}
                             />
                         ))}
                     </div>

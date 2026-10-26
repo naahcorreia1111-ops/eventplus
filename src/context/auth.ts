@@ -23,9 +23,19 @@ export function useAuth() {
 }
 
 export function perfilEhAdministrador(perfil: string) {
-    return perfil === "administrador" || perfil === "admin";
+    const perfilNormalizado = perfil?.trim().toLowerCase();
+
+    return (
+        perfilNormalizado === "admin" ||
+        perfilNormalizado === "administrador"
+    );
 }
 
 export function perfilEhOrganizador(perfil: string) {
-    return perfilEhAdministrador(perfil) || perfil === "organizador";
+    const perfilNormalizado = perfil?.trim().toLowerCase();
+
+    return (
+        perfilEhAdministrador(perfilNormalizado) ||
+        perfilNormalizado === "organizador"
+    );
 }

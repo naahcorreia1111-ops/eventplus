@@ -1,23 +1,56 @@
-
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Home from "../pages/Home/Home";
-import Eventos from "../pages/Home/Eventos/eventos.tsx";
+import Eventos from "../pages/Home/Eventos/eventos";
 import DetalhesEvento from "../pages/Home/DetalhesEvento/DetalhesEvento";
-import Login from "../pages/Login/Login.tsx";
-import Usuarios from "../pages/Usuarios/Usuarios.tsx";
-
+import Login from "../pages/Login/Login";
+import Usuarios from "../pages/Usuarios/Usuarios";
+import TipoEvento from "../pages/TipoEvento/TipoEvento";
+import { useAuth, perfilEhAdministrador } from "../context/auth";
 
 function AppRoutes() {
+    const { autenticado, perfil, carregandoSessao } = useAuth();
+
+    const administrador = perfilEhAdministrador(perfil);
+
+    if (carregandoSessao) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/eventos" element={<Eventos />} />
+            <Route
+                path="/eventos/:id"
+                element={<DetalhesEvento />}
+            />
             <Route path="/login" element={<Login />} />
-             =<Route path="/usuarios" element={<Usuarios />} />
-            <Route path="/eventos/:id" element={<DetalhesEvento />} />
-            <Route path="*" element={<Navigate to="/home" replace />} />
+
+            <Route
+                path="/usuarios"
+                element={
+                    autenticado && administrador
+                        ? <Usuarios />
+                        : <Navigate to="/home" replace />
+                }
+            />
+
+            <Route
+                path="/tipoevento"
+                element={
+                    autenticado && administrador
+                        ? <TipoEvento />
+                        : <Navigate to="/home" replace />
+                }
+            />
+
+            <Route
+                path="*"
+                element={<Navigate to="/home" replace />}
+            />
         </Routes>
     );
 }
+
 export default AppRoutes;

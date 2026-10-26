@@ -1,4 +1,6 @@
+
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Campo from "../../Components/campo/Campo";
@@ -7,21 +9,17 @@ import ModalConfirmacao from "../../Components/ModalConfirmacao/ModalConfirmacao
 
 import lapis from "../../assets/lapis.svg";
 import lixeira from "../../assets/lixeira.svg";
-// Importa a imagem da ilustração se a tiveres na pasta assets:
-// import ilustracao from "../../assets/tipo-evento.png";
+import ilustracao from "../../assets/Vector.png";
 
 import { tipoEventoService } from "../../services/eventPlusservice";
 import { getApiErrorMessage } from "../../services/api";
-import type { TipoEvento } from "../../types/api";
-
+import type { TipoEvento as TipoEventoModel } from "../../types/api";
 import "./TipoEvento.css";
 
 function TipoEvento() {
     const [titulo, setTitulo] = useState("");
-    const [tiposEventos, setTiposEventos] = useState<TipoEvento[]>([]);
-    const [idEmEdicao, setIdEmEdicao] = useState<string | null>(null);
-    const [selecionado, setSelecionado] = useState<TipoEvento | null>(null);
-    
+    const [tiposEventos, setTiposEventos] = useState<TipoEventoModel[]>([]); const [idEmEdicao, setIdEmEdicao] = useState<string | null>(null);
+    const [selecionado, setSelecionado] = useState<TipoEventoModel | null>(null);
     const [carregando, setCarregando] = useState(true);
     const [enviando, setEnviando] = useState(false);
     const [mensagem, setMensagem] = useState("");
@@ -29,8 +27,12 @@ function TipoEvento() {
     const carregar = useCallback(async () => {
         setCarregando(true);
         setMensagem("");
+
         try {
             const dados = await tipoEventoService.listar();
+
+            console.log("Tipos de eventos recebidos:", dados);
+
             setTiposEventos(dados);
         } catch (error) {
             setMensagem(getApiErrorMessage(error));
@@ -51,14 +53,19 @@ function TipoEvento() {
 
     async function salvar(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        
-        if (!titulo.trim()) return;
+
+        if (!titulo.trim()) {
+            setMensagem("Informe o título do tipo de evento.");
+            return;
+        }
 
         setEnviando(true);
         setMensagem("");
 
         try {
-            const payload = { titulo: titulo.trim() };
+            const payload = {
+                tituloTipoEvento: titulo.trim()
+            };
 
             if (idEmEdicao) {
                 await tipoEventoService.atualizar(idEmEdicao, payload);
@@ -75,20 +82,30 @@ function TipoEvento() {
         }
     }
 
-    function editar(item: TipoEvento) {
+    function editar(item: TipoEventoModel) {
         setIdEmEdicao(item.idTipoEvento);
-        setTitulo(item.titulo);
+        setTitulo(item.tituloTipoEvento);
         setMensagem("");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     }
 
     async function excluir() {
         if (!selecionado) return;
 
         setEnviando(true);
+        setMensagem("");
+
         try {
             await tipoEventoService.excluir(selecionado.idTipoEvento);
-            if (idEmEdicao === selecionado.idTipoEvento) limpar();
+
+            if (idEmEdicao === selecionado.idTipoEvento) {
+                limpar();
+            }
+
             setSelecionado(null);
             await carregar();
         } catch (error) {
@@ -104,20 +121,29 @@ function TipoEvento() {
             <Header />
 
             <main className="tipo-evento-page">
-                {/* Seção Superior (Formulário) */}
                 <section className="tipo-evento-cadastro">
                     <h1 className="tipo-evento-titulo">
                         ADMINISTRAÇÃO TIPO DE EVENTOS
                     </h1>
+
                     <hr className="tipo-evento-linha-titulo" />
 
                     <div className="tipo-evento-conteudo">
                         <div className="tipo-evento-ilustracao">
-                            <img src="" alt="Ilustração tipo de evento" />
+                            <img
+                                src={ilustracao}
+                                alt="Ilustração tipo de evento"
+                            />
                         </div>
 
-                        <form className="tipo-evento-formulario" onSubmit={salvar}>
-                            <label className="visually-hidden" htmlFor="titulo-tipo-evento">
+                        <form
+                            className="tipo-evento-formulario"
+                            onSubmit={salvar}
+                        >
+                            <label
+                                className="visually-hidden"
+                                htmlFor="titulo-tipo-evento"
+                            >
                                 Título
                             </label>
 
@@ -126,7 +152,9 @@ function TipoEvento() {
                                 name="titulo"
                                 type="text"
                                 value={titulo}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => setTitulo(e.target.value)}
+                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                    setTitulo(event.target.value)
+                                }
                                 placeholder="Título"
                                 maxLength={100}
                                 required
@@ -137,8 +165,8 @@ function TipoEvento() {
                                     enviando
                                         ? "Salvando..."
                                         : idEmEdicao
-                                          ? "Atualizar"
-                                          : "Cadastrar"
+                                            ? "Atualizar"
+                                            : "Cadastrar"
                                 }
                                 type="submit"
                                 disabled={enviando}
@@ -149,20 +177,23 @@ function TipoEvento() {
                                     type="button"
                                     className="tipo-evento-cancelar"
                                     onClick={limpar}
+                                    disabled={enviando}
                                 >
                                     Cancelar edição
                                 </button>
                             )}
 
-                            {mensagem && <p role="alert">{mensagem}</p>}
+                            {mensagem && (
+                                <p role="alert">{mensagem}</p>
+                            )}
                         </form>
                     </div>
                 </section>
 
-                {/* Seção Inferior Vermelha (Lista) */}
                 <section className="tipo-evento-lista-section">
                     <div className="tipo-evento-lista-container">
                         <h2>LISTA TIPO DE EVENTOS</h2>
+
                         <hr className="tipo-evento-linha-lista" />
 
                         <table className="tipo-evento-tabela">
@@ -173,33 +204,48 @@ function TipoEvento() {
                                     <th>Deletar</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {carregando ? (
                                     <tr>
-                                        <td colSpan={3}>Carregando...</td>
+                                        <td colSpan={3}>
+                                            Carregando...
+                                        </td>
                                     </tr>
                                 ) : tiposEventos.length === 0 ? (
                                     <tr>
-                                        <td colSpan={3}>Nenhum tipo de evento cadastrado</td>
+                                        <td colSpan={3}>
+                                            Nenhum tipo de evento cadastrado
+                                        </td>
                                     </tr>
                                 ) : (
                                     tiposEventos.map((item) => (
                                         <tr key={item.idTipoEvento}>
-                                            <td>{item.titulo}</td>
+                                            <td>{item.tituloTipoEvento}</td>
+
                                             <td>
                                                 <button
                                                     type="button"
+                                                    aria-label={`Editar ${item.tituloTipoEvento}`}
                                                     onClick={() => editar(item)}
                                                 >
-                                                    <img src={lapis} alt="Editar" />
+                                                    <img
+                                                        src={lapis}
+                                                        alt="Editar"
+                                                    />
                                                 </button>
                                             </td>
+
                                             <td>
                                                 <button
                                                     type="button"
+                                                    aria-label={`Excluir ${item.tituloTipoEvento}`}
                                                     onClick={() => setSelecionado(item)}
                                                 >
-                                                    <img src={lixeira} alt="Deletar" />
+                                                    <img
+                                                        src={lixeira}
+                                                        alt="Deletar"
+                                                    />
                                                 </button>
                                             </td>
                                         </tr>
@@ -215,7 +261,7 @@ function TipoEvento() {
                     titulo="Excluir Tipo de Evento"
                     mensagem={
                         selecionado
-                            ? `Deseja excluir "${selecionado.titulo}"?`
+                            ? `Deseja excluir "${selecionado.tituloTipoEvento}"?`
                             : ""
                     }
                     textoCancelar="Cancelar"

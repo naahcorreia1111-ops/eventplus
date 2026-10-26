@@ -1,6 +1,8 @@
+
 export interface TipoEvento {
     idTipoEvento: string;
-    titulo: string;
+    tituloTipoEvento: string;
+    evento?: unknown[];
 }
 
 export interface TipoUsuario {

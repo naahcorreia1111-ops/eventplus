@@ -1,56 +1,65 @@
-
 import "./Home.css";
 
-import bannerEvento1 from "../../assets/banner-1.png";
-import bannerEvento2 from "../../assets/banner-2.png";
-import bannerEvento3 from "../../assets/banner-3.png";
 import visaoImg from "../../assets/visao-img.png";
 
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import CardEvento from "../../Components/CardEvento/CardEvento";
 import Carrossel from "../../Components/Carrossel/Carrossel";
+import { useCallback, useEffect, useState } from "react";
+import type { Evento } from "../../types/api";
+import { eventoService } from "../../services/eventPlusservice";
+import { getApiErrorMessage } from "../../services/api";
 
 function Home() {
-    const eventos = [
-        {
-            id: "1",
-            imagem: bannerEvento1,
-            titulo: "Evento de tecnologia",
-            descricao: "Conheça novidades e tendências do setor.",
-            categoria: "Tecnologia"
-        },
-        {
-            id: "2",
-            imagem: bannerEvento2,
-            titulo: "Workshop",
-            descricao: "Pratique desenvolvimento com atividades guiadas.",
-            categoria: "Workshop"
-        },
-        {
-            id: "3",
-            imagem: bannerEvento3,
-            titulo: "Meetup de IA",
-            descricao: "Discussões sobre aplicações de inteligência artificial.",
-            categoria: "Meetup"
-        }
+    const [eventos, setEventos] = useState<Evento[]>([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState("");
+const carregar = useCallback(async () => {
+    setCarregando(true);
+    setErro("");
+    try {
+        const dados = await eventoService.listarProximos();
+        
+        // Obter a data atual
+        const hoje = new Date();
 
-    ];
+        // Filtrar apenas eventos cuja data seja maior ou igual a hoje
+        const eventosFuturos = dados.filter((item) => {
+            if (!item.dataEvento) return true;
+            return new Date(item.dataEvento) >= hoje;
+        });
+
+        setEventos(eventosFuturos.slice(0, 3));
+    } catch (error) {
+        setErro(getApiErrorMessage(error));
+    } finally {
+        setCarregando(false);
+    }
+}, []);
+
+
+    useEffect(() => {
+        const timeout = window.setTimeout(() => void carregar(), 0);
+        return () => window.clearTimeout(timeout);
+    }, [carregar]);
+
+    useEffect(() => {
+        if (window.location.hash === '#contato') {
+            requestAnimationFrame(() => document.querySelector('#contato')?.scrollIntoView());
+        }
+    }, []);
 
     return (
         <>
             <Header />
 
-
             <main>
                 <Carrossel />
 
-
                 <section className="home-visao">
                     <div className="home-visao-container">
-                        <img src={visaoImg} alt="Pessoas confraternizando"
-                        />
-
+                        <img src={visaoImg} alt="Pessoas confraternizando" />
 
                         <div className="home-visao-texto">
                             <h1>Visão</h1>
@@ -59,28 +68,37 @@ function Home() {
                     </div>
                 </section>
 
-
                 <section id="eventos" className="home-eventos">
                     <div className="home-eventos-titulo">
                         <h2>Próximos Eventos</h2>
                         <hr />
                     </div>
 
+                    {carregando ? (
+                        <p>Carregando próximos eventos...</p>
+                    ) : null}
+
+                    {erro ? (
+                        <p className="home-mensagem-erro">{erro}</p>
+                    ) : null}
+
+                    {!carregando && !erro && eventos.length === 0 ? (
+                        <p>Nenhum próximo evento cadastrado</p>
+                    ) : null}
 
                     <div className="home-eventos-lista">
                         {eventos.map((evento) => (
                             <CardEvento
-                                key={evento.id}
-                                id={evento.id}
-                                titulo={evento.titulo}
-                                imagem={evento.imagem}
+                                key={evento.idEvento}
+                                id={evento.idEvento}
+                                titulo={evento.nome}
+                                imagem={evento.imagemUrl}
                                 descricao={evento.descricao}
-                                categoria={evento.categoria}
+                                categoria={evento.idTipoEventoNavigation?.titulo}
                             />
                         ))}
                     </div>
                 </section>
-
 
                 <section id="contato" className="home-contato">
                     <div className="home-contato-container">
@@ -89,13 +107,11 @@ function Home() {
                             <hr />
                         </div>
 
-
                         <div className="home-contato-conteudo">
                             <div className="home-contato-texto">
                                 <p>Rua Niterói, 180 - Centro</p>
                                 <p>São Caetano do Sul - SP</p>
                             </div>
-
 
                             <iframe
                                 title="Localização do SENAI São Caetano do Sul"
@@ -107,11 +123,9 @@ function Home() {
                 </section>
             </main>
 
-
             <Footer />
         </>
-    )
+    );
 }
-
 
 export default Home;

@@ -1,0 +1,26 @@
+.modal-contente {
+    border: 1px solid #ecd7dc;
+    border-radius: 14px;
+}
+.modal-header,
+.modal-footer {
+    border-color: #f0e2e6;
+}
+.modal-title{
+    color: #16143f;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.modal.body p{
+    margin: 0;
+    color: #555555;
+    line-height: 1.6;
+}
+.modal-footer .btn-danger{
+    background-color: #bd1946;
+    border-color: #bd1946;
+}
+.modal-footer .btn-danger:hover{
+    background-color: #9f143a;
+    border-color: #9f143a;
+}

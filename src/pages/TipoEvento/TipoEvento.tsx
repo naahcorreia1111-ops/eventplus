@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 
 import Header from "../../Components/Header/Header";
@@ -18,7 +17,8 @@ import "./TipoEvento.css";
 
 function TipoEvento() {
     const [titulo, setTitulo] = useState("");
-    const [tiposEventos, setTiposEventos] = useState<TipoEventoModel[]>([]); const [idEmEdicao, setIdEmEdicao] = useState<string | null>(null);
+    const [tiposEventos, setTiposEventos] = useState<TipoEventoModel[]>([]);
+    const [idEmEdicao, setIdEmEdicao] = useState<string | null>(null);
     const [selecionado, setSelecionado] = useState<TipoEventoModel | null>(null);
     const [carregando, setCarregando] = useState(true);
     const [enviando, setEnviando] = useState(false);
@@ -30,9 +30,6 @@ function TipoEvento() {
 
         try {
             const dados = await tipoEventoService.listar();
-
-            console.log("Tipos de eventos recebidos:", dados);
-
             setTiposEventos(dados);
         } catch (error) {
             setMensagem(getApiErrorMessage(error));
@@ -42,7 +39,8 @@ function TipoEvento() {
     }, []);
 
     useEffect(() => {
-        void carregar();
+        const timeout = window.setTimeout(() => void carregar(), 0);
+        return () => window.clearTimeout(timeout);
     }, [carregar]);
 
     function limpar() {
@@ -64,7 +62,8 @@ function TipoEvento() {
 
         try {
             const payload = {
-                tituloTipoEvento: titulo.trim()
+                tituloTipoEvento: titulo.trim(),
+                titulo: titulo.trim()
             };
 
             if (idEmEdicao) {
@@ -84,7 +83,7 @@ function TipoEvento() {
 
     function editar(item: TipoEventoModel) {
         setIdEmEdicao(item.idTipoEvento);
-        setTitulo(item.tituloTipoEvento);
+        setTitulo(item.tituloTipoEvento || item.titulo || "");
         setMensagem("");
 
         window.scrollTo({
@@ -101,11 +100,9 @@ function TipoEvento() {
 
         try {
             await tipoEventoService.excluir(selecionado.idTipoEvento);
-
             if (idEmEdicao === selecionado.idTipoEvento) {
                 limpar();
             }
-
             setSelecionado(null);
             await carregar();
         } catch (error) {
@@ -221,12 +218,12 @@ function TipoEvento() {
                                 ) : (
                                     tiposEventos.map((item) => (
                                         <tr key={item.idTipoEvento}>
-                                            <td>{item.tituloTipoEvento}</td>
+                                            <td>{item.tituloTipoEvento || item.titulo}</td>
 
                                             <td>
                                                 <button
                                                     type="button"
-                                                    aria-label={`Editar ${item.tituloTipoEvento}`}
+                                                    aria-label={`Editar ${item.tituloTipoEvento || item.titulo || ""}`}
                                                     onClick={() => editar(item)}
                                                 >
                                                     <img
@@ -239,7 +236,7 @@ function TipoEvento() {
                                             <td>
                                                 <button
                                                     type="button"
-                                                    aria-label={`Excluir ${item.tituloTipoEvento}`}
+                                                    aria-label={`Excluir ${item.tituloTipoEvento || item.titulo || ""}`}
                                                     onClick={() => setSelecionado(item)}
                                                 >
                                                     <img
@@ -261,7 +258,7 @@ function TipoEvento() {
                     titulo="Excluir Tipo de Evento"
                     mensagem={
                         selecionado
-                            ? `Deseja excluir "${selecionado.tituloTipoEvento}"?`
+                            ? `Deseja excluir "${selecionado.tituloTipoEvento || selecionado.titulo || ""}"?`
                             : ""
                     }
                     textoCancelar="Cancelar"

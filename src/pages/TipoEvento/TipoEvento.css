@@ -1,50 +1,99 @@
 .tipo-evento-page {
     width: 100%;
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #ffffff;
 }
 
 .tipo-evento-cadastro {
     width: min(1200px, calc(100% - 48px));
     margin: 0 auto;
-    padding: 40px 0;
+    padding: 40px 0 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .tipo-evento-titulo {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.15rem;
+    font-weight: 700;
     color: #17143f;
     text-transform: uppercase;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
 }
 
 .tipo-evento-linha-titulo {
     border: none;
-    border-top: 2px solid #b51d44;
-    width: 100px;
-    margin-top: 8px;
-    margin-bottom: 40px;
+    border-top: 2.5px solid #b51d44;
+    width: 60px;
+    margin: 8px auto 44px;
 }
 
 .tipo-evento-conteudo {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
-    gap: 40px;
+    gap: 60px;
+}
+
+.tipo-evento-ilustracao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 420px;
 }
 
 .tipo-evento-ilustracao img {
-    max-width: 380px;
     width: 100%;
+    height: auto;
 }
 
 .tipo-evento-formulario {
     width: 100%;
-    max-width: 350px;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
+}
+
+.tipo-evento-formulario .campo {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #a8a8a8;
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #17143f;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.tipo-evento-formulario .campo::placeholder {
+    color: #a8a8a8;
+}
+
+.tipo-evento-formulario .campo:focus {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.tipo-evento-formulario .botao {
+    width: 100%;
+    background-color: #b51d44;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.tipo-evento-formulario .botao:hover {
+    background-color: #961737;
 }
 
 .tipo-evento-cancelar {
@@ -52,20 +101,28 @@
     border: 1px solid #b51d44;
     color: #b51d44;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
-/* Seção vermelha da lista */
+.tipo-evento-cancelar:hover {
+    background-color: #b51d44;
+    color: #ffffff;
+}
+
+/* Seção vermelha da lista (Exatamente como na imagem do professor) */
 .tipo-evento-lista-section {
     background-color: #b51d44;
     color: #ffffff;
-    padding: 48px 0;
+    padding: 48px 0 72px;
     width: 100%;
 }
 
 .tipo-evento-lista-container {
-    width: min(1000px, calc(100% - 48px));
+    width: min(800px, calc(100% - 48px));
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -73,41 +130,45 @@
 }
 
 .tipo-evento-lista-container h2 {
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1.15rem;
+    font-weight: 700;
     text-transform: uppercase;
     color: #ffffff;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
 }
 
 .tipo-evento-linha-lista {
     border: none;
-    border-top: 2px solid #ffffff;
-    width: 100px;
-    margin-top: 8px;
-    margin-bottom: 32px;
+    border-top: 2.5px solid #ffffff;
+    width: 60px;
+    margin: 8px auto 36px;
 }
 
 .tipo-evento-tabela {
     width: 100%;
     border-collapse: collapse;
     color: #ffffff;
+    font-size: 0.95rem;
 }
 
 .tipo-evento-tabela th {
-    padding: 12px 16px;
+    padding: 14px 16px;
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
+    font-weight: 600;
 }
 
 .tipo-evento-tabela th:nth-child(2),
 .tipo-evento-tabela th:nth-child(3) {
     text-align: center;
-    width: 100px;
+    width: 90px;
 }
 
 .tipo-evento-tabela td {
     padding: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .tipo-evento-tabela td:nth-child(2),
@@ -120,106 +181,26 @@
     border: none;
     cursor: pointer;
     padding: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.tipo-evento-tabela button:hover {
+    opacity: 0.75;
 }
 
 .tipo-evento-tabela button img {
     width: 18px;
     height: 18px;
-    filter: brightness(0) invert(1); /* Deixa os ícones brancos */
+    filter: brightness(0) invert(1);
 }
 
-
-/* Ajustes do formulário para aproximar do modelo */
-.tipo-evento-formulario input {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #999999;
-    border-radius: 0;
-    background: transparent;
-    padding: 10px 4px;
-    outline: none;
-    box-shadow: none;
-}
-
-.tipo-evento-formulario input:focus {
-    border-bottom: 1px solid #b51d44;
-}
-
-.tipo-evento-formulario .botao {
-    width: 100%;
-    min-height: 42px;
-    background-color: #b51d44;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.tipo-evento-formulario .botao:hover {
-    background-color: #821b47;
-}
-
-.tipo-evento-formulario .botao:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-/* Ajuste da ilustração */
-.tipo-evento-ilustracao {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.tipo-evento-ilustracao img {
-    display: block;
-    width: 100%;
-    max-width: 380px;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Ajustes da tabela */
-.tipo-evento-lista-container {
-    width: min(1000px, calc(100% - 48px));
-}
-
-.tipo-evento-tabela td:first-child,
-.tipo-evento-tabela th:first-child {
-    text-align: left;
-}
-
-.tipo-evento-tabela td {
-    min-height: 44px;
-}
-
-@media (max-width: 650px) {
-    .tipo-evento-cadastro {
-        width: calc(100% - 32px);
-        padding: 32px 0;
-    }
-
+@media (max-width: 800px) {
     .tipo-evento-conteudo {
         flex-direction: column;
-        gap: 28px;
+        gap: 32px;
     }
 
-    .tipo-evento-ilustracao img {
-        max-width: 320px;
-    }
-
-    .tipo-evento-formulario {
-        max-width: 100%;
-    }
-
-    .tipo-evento-lista-container {
-        width: calc(100% - 32px);
-        overflow-x: auto;
-    }
-
-    .tipo-evento-tabela {
-        min-width: 420px;
+    .tipo-evento-ilustracao {
+        max-width: 280px;
     }
 }

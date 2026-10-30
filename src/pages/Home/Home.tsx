@@ -7,6 +7,7 @@ import Footer from "../../Components/Footer/Footer";
 import CardEvento from "../../Components/CardEvento/CardEvento";
 import Carrossel from "../../Components/Carrossel/Carrossel";
 import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import type { Evento } from "../../types/api";
 import { eventoService } from "../../services/eventPlusservice";
 import { getApiErrorMessage } from "../../services/api";
@@ -15,29 +16,30 @@ function Home() {
     const [eventos, setEventos] = useState<Evento[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState("");
-const carregar = useCallback(async () => {
-    setCarregando(true);
-    setErro("");
-    try {
-        const dados = await eventoService.listarProximos();
-        
-        // Obter a data atual
-        const hoje = new Date();
+    const location = useLocation();
 
-        // Filtrar apenas eventos cuja data seja maior ou igual a hoje
-        const eventosFuturos = dados.filter((item) => {
-            if (!item.dataEvento) return true;
-            return new Date(item.dataEvento) >= hoje;
-        });
+    const carregar = useCallback(async () => {
+        setCarregando(true);
+        setErro("");
+        try {
+            const dados = await eventoService.listarProximos();
 
-        setEventos(eventosFuturos.slice(0, 3));
-    } catch (error) {
-        setErro(getApiErrorMessage(error));
-    } finally {
-        setCarregando(false);
-    }
-}, []);
+            // Obter a data atual
+            const hoje = new Date();
 
+            // Filtrar apenas eventos cuja data seja maior ou igual a hoje
+            const eventosFuturos = dados.filter((item) => {
+                if (!item.dataEvento) return true;
+                return new Date(item.dataEvento) >= hoje;
+            });
+
+            setEventos(eventosFuturos.slice(0, 3));
+        } catch (error) {
+            setErro(getApiErrorMessage(error));
+        } finally {
+            setCarregando(false);
+        }
+    }, []);
 
     useEffect(() => {
         const timeout = window.setTimeout(() => void carregar(), 0);
@@ -45,10 +47,16 @@ const carregar = useCallback(async () => {
     }, [carregar]);
 
     useEffect(() => {
-        if (window.location.hash === '#contato') {
-            requestAnimationFrame(() => document.querySelector('#contato')?.scrollIntoView());
+        if (location.hash === "#contato") {
+            const timeout = window.setTimeout(() => {
+                const elemento = document.getElementById("contato");
+                if (elemento) {
+                    elemento.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 100);
+            return () => window.clearTimeout(timeout);
         }
-    }, []);
+    }, [location.hash]);
 
     return (
         <>
@@ -63,7 +71,11 @@ const carregar = useCallback(async () => {
 
                         <div className="home-visao-texto">
                             <h1>Visão</h1>
-                            <p>A EventPlus organiza eventos e informações em uma interface direta, facilitando a consulta da agenda e a participação dos usuários.</p>
+                            <p>
+                                A EventPlus organiza eventos e informações em uma interface
+                                direta, facilitando a consulta da agenda e a participação
+                                dos usuários.
+                            </p>
                         </div>
                     </div>
                 </section>
@@ -94,7 +106,11 @@ const carregar = useCallback(async () => {
                                 titulo={evento.nome}
                                 imagem={evento.imagemUrl}
                                 descricao={evento.descricao}
-                                categoria={evento.idTipoEventoNavigation?.tituloTipoEvento}
+                                categoria={
+                                    evento.idTipoEventoNavigation?.titulo ||
+                                    evento.idTipoEventoNavigation?.tituloTipoEvento ||
+                                    "Evento"
+                                }
                             />
                         ))}
                     </div>

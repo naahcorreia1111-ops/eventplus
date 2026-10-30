@@ -1,7 +1,3 @@
-
-
-import "./Eventos.css";
-
 import { useEffect, useState } from "react";
 
 import Header from "../../../Components/Header/Header";
@@ -10,70 +6,48 @@ import CardEvento from "../../../Components/CardEvento/CardEvento";
 
 import type { Evento } from "../../../types/api";
 import { eventoService } from "../../../services/eventPlusservice";
+import { getApiErrorMessage } from "../../../services/api";
 
+import "./Eventos.css";
 
 function Eventos() {
     const [eventos, setEventos] = useState<Evento[]>([]);
-    const [categoriaSelecionada, setCategoriaSelecionada] =
-        useState("Todos");
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState("");
 
-
-    const categorias = [
-        "Todos",
-        "Tecnologia",
-        "Design",
-        "Programação"
-    ];
-
-
     useEffect(() => {
+        let montado = true;
+
         async function carregar() {
             try {
                 setCarregando(true);
                 setErro("");
 
-
                 const dados = await eventoService.listar();
-
-
-                console.log("Eventos recebidos:", dados);
-
-
-                setEventos(Array.isArray(dados) ? dados : []);
+                if (montado) {
+                    setEventos(Array.isArray(dados) ? dados : []);
+                }
             } catch (error) {
-                console.error("Erro ao buscar eventos:", error);
-                setErro("Não foi possível carregar os eventos.");
+                if (montado) {
+                    setErro(getApiErrorMessage(error));
+                }
             } finally {
-                setCarregando(false);
+                if (montado) {
+                    setCarregando(false);
+                }
             }
         }
 
-
-        void carregar();
+        const timeout = window.setTimeout(() => void carregar(), 0);
+        return () => {
+            montado = false;
+            window.clearTimeout(timeout);
+        };
     }, []);
-
-
-    const eventosFiltrados = eventos.filter((evento) => {
-        if (categoriaSelecionada === "Todos") {
-            return true;
-        }
-
-
-        const categoria =
-            evento.idTipoEventoNavigation?.titulo ?? "";
-
-
-        return categoria.trim().toLowerCase() ===
-            categoriaSelecionada.trim().toLowerCase();
-    });
-
 
     return (
         <>
             <Header />
-
 
             <main className="eventos-pagina">
                 <section className="eventos-container">
@@ -81,33 +55,6 @@ function Eventos() {
                         <h1>Catálogo de eventos</h1>
                         <hr />
                     </div>
-
-
-                    <nav
-                        className="eventos-filtros"
-                        aria-label="Filtrar eventos por categoria"
-                    >
-                        {categorias.map((categoria) => (
-                            <button
-                                key={categoria}
-                                type="button"
-                                className={
-                                    categoriaSelecionada === categoria
-                                        ? "eventos-filtro ativo"
-                                        : "eventos-filtro"
-                                }
-                                onClick={() =>
-                                    setCategoriaSelecionada(categoria)
-                                }
-                                aria-pressed={
-                                    categoriaSelecionada === categoria
-                                }
-                            >
-                                {categoria}
-                            </button>
-                        ))}
-                    </nav>
-
 
                     <div className="eventos-lista">
                         {carregando ? (
@@ -118,37 +65,38 @@ function Eventos() {
                             <p className="eventos-sem-resultado">
                                 {erro}
                             </p>
-                        ) : eventosFiltrados.length > 0 ? (
-                            eventosFiltrados.map((evento) => (
+                        ) : eventos.length > 0 ? (
+                            eventos.map((evento) => (
                                 <CardEvento
                                     key={evento.idEvento}
                                     id={String(evento.idEvento)}
                                     imagem={evento.imagemUrl}
                                     categoria={
-                                        evento.idTipoEventoNavigation
-                                            ?.titulo ??
-                                        "Sem categoria"
+                                        evento.idTipoEventoNavigation?.titulo ||
+                                        evento.idTipoEventoNavigation?.tituloTipoEvento ||
+                                        "Evento"
                                     }
-                                    titulo={evento.nome}
+                                    titulo={
+                                        evento.nome ||
+                                        (evento as unknown as { titulo?: string })?.titulo ||
+                                        (evento as unknown as { nomeEvento?: string })?.nomeEvento ||
+                                        "Evento"
+                                    }
                                     descricao={evento.descricao}
                                 />
                             ))
                         ) : (
                             <p className="eventos-sem-resultado">
-                                {eventos.length === 0
-                                    ? "Nenhum evento foi retornado pela API."
-                                    : "Nenhum evento encontrado nesta categoria."}
+                                Nenhum evento cadastrado no momento.
                             </p>
                         )}
                     </div>
                 </section>
             </main>
 
-
             <Footer />
         </>
     );
 }
-
 
 export default Eventos;

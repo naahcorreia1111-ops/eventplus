@@ -1,0 +1,291 @@
+.cadastro-evento-page {
+    width: 100%;
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.cadastro-evento-cabecalho {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 40px 0 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro-evento-titulo {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #17143f;
+    text-transform: uppercase;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.cadastro-evento-linha-titulo {
+    border: none;
+    border-top: 2.5px solid #b51d44;
+    width: 60px;
+    margin: 8px auto 44px;
+}
+
+.cadastro-evento-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 60px;
+}
+
+.cadastro-evento-ilustracao {
+    width: 380px;
+    max-width: 100%;
+    border-radius: 28px;
+    background-color: #ececec;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.cadastro-evento-ilustracao img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.cadastro-evento-formulario {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.cadastro-evento-linha-dupla {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: end;
+    width: 100%;
+}
+
+.cadastro-evento-formulario .campo {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #a8a8a8;
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #17143f;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.cadastro-evento-formulario .campo::placeholder {
+    color: #a8a8a8;
+}
+
+.cadastro-evento-formulario .campo:focus {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.cadastro-evento-data-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1.5px solid #a8a8a8;
+    transition: border-color 0.2s ease;
+}
+
+.cadastro-evento-data-wrapper:focus-within {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.cadastro-evento-data-wrapper .campo {
+    border-bottom: none !important;
+    padding: 6px 0;
+}
+
+.cadastro-evento-relogio-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.75;
+}
+
+.cadastro-evento-select {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #a8a8a8;
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #555555;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.cadastro-evento-select:focus {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.cadastro-evento-upload-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.5px solid #a8a8a8;
+    padding: 6px 0;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.cadastro-evento-upload-linha:hover {
+    border-bottom-color: #b51d44;
+}
+
+.cadastro-evento-upload-texto {
+    color: #a8a8a8;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 380px;
+}
+
+.cadastro-evento-upload-icon {
+    color: #333333;
+    flex-shrink: 0;
+}
+
+.cadastro-evento-btn-cadastrar {
+    width: 100%;
+    background-color: #b51d44;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.cadastro-evento-btn-cadastrar:hover {
+    background-color: #961737;
+}
+
+.cadastro-evento-btn-cadastrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cadastro-evento-progresso-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cadastro-evento-progresso-barra {
+    height: 6px;
+    background-color: #b51d44;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.cadastro-evento-progresso-texto {
+    font-size: 0.8rem;
+    color: #b51d44;
+    font-weight: 600;
+    text-align: right;
+}
+
+.cadastro-evento-cancelar {
+    background: transparent;
+    border: 1px solid #b51d44;
+    color: #b51d44;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.cadastro-evento-cancelar:hover {
+    background-color: #b51d44;
+    color: #ffffff;
+}
+
+.cadastro-evento-mensagem {
+    margin: 4px 0 0;
+    color: #b51d44;
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Seção Inferior - Lista de Eventos (Fundo Branco como na imagem do professor) */
+.cadastro-evento-lista-section {
+    background-color: #ffffff;
+    padding: 40px 0 80px;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cadastro-evento-lista-container {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro-evento-lista-container h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #17143f;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.cadastro-evento-status {
+    color: #666666;
+    font-size: 0.95rem;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.cadastro-evento-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+@media (max-width: 860px) {
+    .cadastro-evento-conteudo {
+        flex-direction: column;
+        gap: 36px;
+    }
+
+    .cadastro-evento-ilustracao {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .cadastro-evento-linha-dupla {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

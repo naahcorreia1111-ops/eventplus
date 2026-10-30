@@ -1,22 +1,23 @@
 :root {
-    --cinza-claro: #ded9da;
+    --cinza-claro: #e6e6e6;
     --branco: #ffffff;
     --cor-texto: #17143f;
     --vermelho: #b51d44;
-    --vermelho-escuro: #821b47;
-    --azul-claro: rgba(0,80,251,0.21);
+    --vermelho-hover: #961737;
+    --azul-claro: rgba(0, 80, 251, 0.21);
 }
 
-
-.header{
-    border-bottom: 1px solid var(--cinza-claro);
+.header {
+    border-bottom: 1.5px solid var(--cinza-claro);
     background: var(--branco);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
-
 
 .header-conteudo {
-    width: min(1700px, calc(100% - 48px));
-    min-height: 60px;
+    width: min(1300px, calc(100% - 48px));
+    min-height: 64px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -24,27 +25,87 @@
     gap: 32px;
 }
 
-
-.header img {
-    width: 100px;
+.header-logo img {
+    width: 120px;
+    height: auto;
 }
 
-
-.header nav{
+.header-nav {
     display: flex;
-    gap: 28px;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
 }
 
-
-.header a {
+.header-nav a {
     color: var(--cor-texto);
     text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
+.header-nav a:hover,
+.header-nav a.active {
+    color: var(--vermelho);
+}
 
-.header button {
-    border: none;
-    background: none;
+.header-usuario-area {
+    display: flex;
+    align-items: center;
+}
+
+.header-usuario-acoes {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-usuario-label {
     color: var(--cor-texto);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.header-btn-sair {
+    border: none;
+    background: transparent;
+    color: var(--vermelho);
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.header-btn-sair:hover {
+    background: rgba(181, 29, 68, 0.08);
+}
+
+.header-link-login {
+    color: var(--vermelho);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 6px 14px;
+    border: 1px solid var(--vermelho);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.header-link-login:hover {
+    background: var(--vermelho);
+    color: var(--branco);
+}
+
+@media (max-width: 768px) {
+    .header-conteudo {
+        padding: 12px 0;
+        gap: 16px;
+    }
+
+    .header-nav {
+        gap: 16px;
+    }
 }

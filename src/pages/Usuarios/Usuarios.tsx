@@ -4,10 +4,9 @@ import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import Campo from "../../Components/campo/Campo";
 import Botao from "../../Components/Botao/botao";
+import ListaUsuarios from "../../Components/ListaUsuarios/ListaUsuarios";
 import ModalConfirmacao from "../../Components/ModalConfirmacao/ModalConfirmacao";
 
-import lapis from "../../assets/lapis.svg";
-import lixeira from "../../assets/lixeira.svg";
 import imagemUsuario from "../../assets/Usuario.png";
 
 import { usuarioService, tipoUsuarioService } from "../../services/eventPlusservice";
@@ -52,7 +51,8 @@ function Usuarios() {
     }, []);
 
     useEffect(() => {
-        void carregarDados();
+        const timeout = window.setTimeout(() => void carregarDados(), 0);
+        return () => window.clearTimeout(timeout);
     }, [carregarDados]);
 
     function limpar() {
@@ -232,66 +232,14 @@ function Usuarios() {
                     </div>
                 </section>
 
-                {/* Seção Inferior - Lista */}
-                <section className="usuarios-lista-section">
-                    <div className="usuarios-lista-container">
-                        <h2>USUÁRIOS CADASTRADOS</h2>
-                        <hr className="usuarios-linha-lista" />
-
-                        <table className="usuarios-tabela">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Tipo Usuário</th>
-                                    <th>Editar</th>
-                                    <th>Deletar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {carregando ? (
-                                    <tr>
-                                        <td colSpan={5}>Carregando...</td>
-                                    </tr>
-                                ) : usuarios.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={5}>Nenhum usuário cadastrado.</td>
-                                    </tr>
-                                ) : (
-                                    usuarios.map((item) => (
-                                        <tr key={item.idUsuario}>
-                                            <td>{item.nome}</td>
-                                            <td>{item.email}</td>
-                                            <td>
-                                                {item.idTipoUsuarioNavigation?.titulo || "Espectador"}
-                                            </td>
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    className="usuarios-acao"
-                                                    aria-label={`Editar ${item.nome}`}
-                                                    onClick={() => editar(item)}
-                                                >
-                                                    <img src={lapis} alt="Editar" />
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    className="usuarios-acao"
-                                                    aria-label={`Excluir ${item.nome}`}
-                                                    onClick={() => setSelecionado(item)}
-                                                >
-                                                    <img src={lixeira} alt="Excluir" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                {/* Seção Inferior - Lista de Usuários Reutilizável */}
+                <ListaUsuarios
+                    usuarios={usuarios}
+                    idEmEdicao={idEmEdicao}
+                    carregando={carregando}
+                    onEditar={editar}
+                    onExcluir={(usuario) => setSelecionado(usuario)}
+                />
 
                 <ModalConfirmacao
                     show={Boolean(selecionado)}

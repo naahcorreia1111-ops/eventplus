@@ -6,59 +6,56 @@ import DetalhesEvento from "../pages/Home/DetalhesEvento/DetalhesEvento";
 import Login from "../pages/Login/Login";
 import Usuarios from "../pages/Usuarios/Usuarios";
 import TipoEvento from "../pages/TipoEvento/TipoEvento";
-import { useAuth, perfilEhAdministrador } from "../context/auth";
 import TipoUsuario from "../pages/TipoUsuario/TipoUsuario";
+import CadastroEvento from "../pages/CadastroEvento/CadastroEvento";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
-    const { autenticado, perfil, carregandoSessao } = useAuth();
-
-    const administrador = perfilEhAdministrador(perfil);
-
-    if (carregandoSessao) {
-        return <p>Carregando...</p>;
-    }
-
     return (
         <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path="/eventos" element={<Eventos />} />
-            <Route
-                path="/eventos/:id"
-                element={<DetalhesEvento />}
-            />
+            <Route path="/eventos/:id" element={<DetalhesEvento />} />
             <Route path="/login" element={<Login />} />
+
+            <Route
+                path="/cadastroEvento"
+                element={
+                    <ProtectedRoute role="organizador">
+                        <CadastroEvento />
+                    </ProtectedRoute>
+                }
+            />
 
             <Route
                 path="/usuarios"
                 element={
-                    autenticado && administrador
-                        ? <Usuarios />
-                        : <Navigate to="/home" replace />
+                    <ProtectedRoute role="administrador">
+                        <Usuarios />
+                    </ProtectedRoute>
                 }
             />
 
             <Route
                 path="/tipoevento"
                 element={
-                    autenticado && administrador
-                        ? <TipoEvento />
-                        : <Navigate to="/home" replace />
+                    <ProtectedRoute role="administrador">
+                        <TipoEvento />
+                    </ProtectedRoute>
                 }
             />
 
             <Route
                 path="/tipousuario"
                 element={
-                    autenticado && administrador
-                        ? <TipoUsuario />
-                        : <Navigate to="/home" replace />
+                    <ProtectedRoute role="administrador">
+                        <TipoUsuario />
+                    </ProtectedRoute>
                 }
             />
 
-            <Route
-                path="*"
-                element={<Navigate to="/home" replace />}
-            />
+            <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
     );
 }

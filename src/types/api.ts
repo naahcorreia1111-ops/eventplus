@@ -1,7 +1,7 @@
-
 export interface TipoEvento {
     idTipoEvento: string;
-    tituloTipoEvento: string;
+    titulo?: string;
+    tituloTipoEvento?: string;
     evento?: unknown[];
 }
 
@@ -17,7 +17,7 @@ export interface Instituicao {
     endereco: string;
 }
 
-// Alias para garantir compatibilidade caso algum arquivo use em minúsculo
+// Alias para compatibilidade com arquivos que usam minúsculo
 export type instituicao = Instituicao;
 
 export interface Usuario {
@@ -36,12 +36,22 @@ export interface Evento {
     imagemUrl?: string | null;
     idTipoEvento?: string | null;
     idTipoInstituicao?: string | null;
+    idInstituicao?: string | null;
     idTipoEventoNavigation?: TipoEvento | null;
     idInstituicaoNavigation?: Instituicao | null;
 }
 
-export interface Comentario {
+export interface EventoPayload {
+    nome: string;
+    descricao: string;
+    dataEvento: string;
+    arquivoImagem?: File | null;
+    imagemUrl?: string | null;
+    idTipoEvento?: string | null;
+    idInstituicao?: string | null;
+}
 
+export interface Comentario {
     idComentario: string;
     descricao: string;
     dataComentario: string;
@@ -50,7 +60,6 @@ export interface Comentario {
     idUsuario?: string | null;
     idUsuarioNavigation: Usuario | null;
 }
-
 
 export interface Presenca {
     idPresenca: string;
@@ -61,28 +70,21 @@ export interface Presenca {
 }
 
 export interface ComentarioPayload {
-
     descricao: string;
     idEvento: string;
     idUsuario: string | null;
-
 }
 
 export interface PresencaPayload {
-
     situacao: boolean;
     idEvento: string;
     idUsuario: string | null;
-
 }
 
 export interface MensagemModeracao {
-
     mensagem: string;
     motivo?: string;
-
 }
-
 
 export interface LoginPayload {
     email: string;
@@ -99,18 +101,12 @@ export interface AuthSession extends LoginResponse {
     usuario: Usuario;
 }
 
-export interface UsuarioPayLoad {
-
-
+export interface UsuarioPayload {
     nome: string;
     email: string;
     senha: string;
     idTipoUsuario: string | null;
-
 }
 
-export interface PresencaPayload {
-    situacao: boolean;
-    idEvento: string;
-    idUsuario: string | null;
-}
+// Alias para compatibilidade caso algum arquivo utilize camelCase
+export type UsuarioPayLoad = UsuarioPayload;

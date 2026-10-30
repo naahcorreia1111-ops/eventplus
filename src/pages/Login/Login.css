@@ -1,0 +1,99 @@
+.login-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 24px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-logo {
+    width: 220px;
+    height: auto;
+    margin-bottom: 48px;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-campo-grupo {
+    width: 100%;
+}
+
+.login-campo-grupo .campo {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #a8a8a8;
+    border-radius: 0;
+    background: transparent;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    color: #17143f;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.login-campo-grupo .campo::placeholder {
+    color: #a8a8a8;
+}
+
+.login-campo-grupo .campo:focus {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.login-esqueceu-senha {
+    text-align: center;
+    color: #999999;
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    transition: color 0.2s ease;
+}
+
+.login-esqueceu-senha:hover {
+    color: #666666;
+}
+
+.login-btn-entrar {
+    width: 100%;
+    background-color: #b51d44;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn-entrar:hover {
+    background-color: #961737;
+}
+
+.login-btn-entrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.login-erro {
+    color: #b51d44;
+    font-size: 0.88rem;
+    text-align: center;
+    margin-top: 6px;
+    font-weight: 500;
+}

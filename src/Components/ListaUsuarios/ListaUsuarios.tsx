@@ -1,6 +1,5 @@
 import type { Usuario } from "../../types/api";
 import "./ListaUsuarios.css";
-import "./ListaUsuarios.css";
 import lapis from "../../assets/lapis.svg";
 import lixeira from "../../assets/lixeira.svg";
 
@@ -12,26 +11,34 @@ interface ListaUsuariosProps {
     onExcluir: (usuario: Usuario) => void;
 }
 
-function ListaUsuarios({ usuarios, idEmEdicao, carregando, onEditar, onExcluir }: ListaUsuariosProps) {
+function ListaUsuarios({
+    usuarios,
+    idEmEdicao,
+    carregando,
+    onEditar,
+    onExcluir
+}: ListaUsuariosProps) {
     return (
-        <section>
-            <div>
-                <h2>Usuários Cadastrados</h2>
-                <div className="lista-tipos-tabela-wrapper">
-                    <table className="lista-usuarios-tabela">
+        <section className="usuarios-lista-section">
+            <div className="usuarios-lista-container">
+                <h2>USUÁRIOS CADASTRADOS</h2>
+                <hr className="usuarios-linha-lista" />
+
+                <div className="lista-usuarios-tabela-wrapper">
+                    <table className="usuarios-tabela">
                         <thead>
                             <tr>
                                 <th>Nome</th>
                                 <th>E-mail</th>
                                 <th>Tipo Usuário</th>
                                 <th>Editar</th>
-                                <th>Excluir</th>
+                                <th>Deletar</th>
                             </tr>
                         </thead>
                         <tbody>
                             {carregando ? (
                                 <tr>
-                                    <td colSpan={5} className="lista-tipos-tabela-vazia">
+                                    <td colSpan={5} className="lista-usuarios-tabela-vazia">
                                         Carregando...
                                     </td>
                                 </tr>
@@ -39,48 +46,49 @@ function ListaUsuarios({ usuarios, idEmEdicao, carregando, onEditar, onExcluir }
 
                             {!carregando && usuarios.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="lista-tipos-tabela-vazia">
-                                        Nenhum usuário cadastrado
+                                    <td colSpan={5} className="lista-usuarios-tabela-vazia">
+                                        Nenhum usuário cadastrado.
                                     </td>
                                 </tr>
                             ) : null}
 
-                            {!carregando && usuarios.map((usuario) => (
-                                <tr
-                                    className={
-                                        idEmEdicao === usuario.idUsuario
-                                            ? "lista-tipos-linha-ativa"
-                                            : ""
-                                    }
-                                    key={usuario.idUsuario}
-                                >
-                                    <td>{usuario.nome}</td>
-                                    <td>{usuario.email}</td>
-                                    <td>
-                                        {usuario.idTipoUsuarioNavigation?.titulo || "Não informado"}
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="lista-tipos-acao"
-                                            type="button"
-                                            aria-label={`Editar ${usuario.nome}`}
-                                            onClick={() => onEditar(usuario)}
-                                        >
-                                            <img src={lapis} alt="Ícone de editar" />
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="lista-tipos-acao"
-                                            type="button"
-                                            aria-label={`Excluir ${usuario.nome}`}
-                                            onClick={() => onExcluir(usuario)}
-                                        >
-                                            <img src={lixeira} alt="Ícone de excluir" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                            {!carregando &&
+                                usuarios.map((usuario) => (
+                                    <tr
+                                        className={
+                                            idEmEdicao === usuario.idUsuario
+                                                ? "usuarios-linha-ativa"
+                                                : ""
+                                        }
+                                        key={usuario.idUsuario}
+                                    >
+                                        <td>{usuario.nome}</td>
+                                        <td>{usuario.email}</td>
+                                        <td>
+                                            {usuario.idTipoUsuarioNavigation?.titulo || "Não informado"}
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="usuarios-acao"
+                                                type="button"
+                                                aria-label={`Editar ${usuario.nome}`}
+                                                onClick={() => onEditar(usuario)}
+                                            >
+                                                <img src={lapis} alt="Ícone de editar" />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="usuarios-acao"
+                                                type="button"
+                                                aria-label={`Excluir ${usuario.nome}`}
+                                                onClick={() => onExcluir(usuario)}
+                                            >
+                                                <img src={lixeira} alt="Ícone de excluir" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

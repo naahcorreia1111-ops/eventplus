@@ -4,6 +4,7 @@ import type {
     Comentario,
     ComentarioPayload,
     Evento,
+    EventoPayload,
     Instituicao,
     LoginPayload,
     LoginResponse,
@@ -13,18 +14,8 @@ import type {
     TipoEvento,
     TipoUsuario,
     Usuario,
-    UsuarioPayLoad
+    UsuarioPayload
 } from "../types/api";
-
-export interface EventoPayload {
-    nome: string;
-    descricao: string;
-    dataEvento: string;
-    idTipoEvento: string;
-    idInstituicao: string;
-    arquivoImagem?: File | null;
-    imagemUrl?: string | null;
-}
 
 function eventoFormData(payload: EventoPayload) {
     const formData = new FormData();
@@ -170,7 +161,7 @@ export const usuarioService = {
         return data;
     },
 
-    async cadastrar(payload: UsuarioPayLoad) {
+    async cadastrar(payload: UsuarioPayload) {
         const { data } = await axiosInstance.post<Usuario>(
             "Usuario",
             payload
@@ -179,7 +170,7 @@ export const usuarioService = {
         return data;
     },
 
-    async atualizar(id: string, payload: UsuarioPayLoad) {
+    async atualizar(id: string, payload: UsuarioPayload) {
         await axiosInstance.put(`Usuario/${id}`, payload);
     },
 
@@ -194,10 +185,14 @@ export const tipoEventoService = {
         return data;
     },
 
-    async cadastrar(payload: { tituloTipoEvento: string }) {
+    async cadastrar(payload: { titulo?: string; tituloTipoEvento?: string }) {
+        const body = {
+            titulo: payload.titulo || payload.tituloTipoEvento || "",
+            tituloTipoEvento: payload.tituloTipoEvento || payload.titulo || ""
+        };
         const { data } = await axiosInstance.post<TipoEvento>(
             "TipoEvento",
-            payload
+            body
         );
 
         return data;
@@ -205,9 +200,13 @@ export const tipoEventoService = {
 
     async atualizar(
         id: string,
-        payload: { tituloTipoEvento: string }
+        payload: { titulo?: string; tituloTipoEvento?: string }
     ) {
-        await axiosInstance.put(`TipoEvento/${id}`, payload);
+        const body = {
+            titulo: payload.titulo || payload.tituloTipoEvento || "",
+            tituloTipoEvento: payload.tituloTipoEvento || payload.titulo || ""
+        };
+        await axiosInstance.put(`TipoEvento/${id}`, body);
     },
 
     async excluir(id: string) {

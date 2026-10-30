@@ -13,6 +13,7 @@ import ModalConfirmacao from "../../Components/ModalConfirmacao/ModalConfirmacao
 
 import lapis from "../../assets/lapis.svg";
 import lixeira from "../../assets/lixeira.svg";
+import imagemUsuario from "../../assets/Usuario.png";
 
 import { tipoUsuarioService } from "../../services/eventPlusservice";
 import { getApiErrorMessage } from "../../services/api";
@@ -45,7 +46,8 @@ function TipoUsuario() {
     }, []);
 
     useEffect(() => {
-        void carregar();
+        const timeout = window.setTimeout(() => void carregar(), 0);
+        return () => window.clearTimeout(timeout);
     }, [carregar]);
 
     function limpar() {
@@ -104,11 +106,9 @@ function TipoUsuario() {
 
         try {
             await tipoUsuarioService.excluir(selecionado.idTipoUsuario);
-
             if (idEmEdicao === selecionado.idTipoUsuario) {
                 limpar();
             }
-
             setSelecionado(null);
             await carregar();
         } catch (error) {
@@ -128,34 +128,12 @@ function TipoUsuario() {
                     <h1 className="tipo-usuario-titulo">
                         ADMINISTRAÇÃO TIPO DE USUÁRIOS
                     </h1>
+
                     <hr className="tipo-usuario-linha-titulo" />
 
                     <div className="tipo-usuario-conteudo">
-                        <div
-                            className="tipo-usuario-ilustracao"
-                            aria-hidden="true"
-                        >
-                            <div className="tipo-usuario-ilustracao-janela">
-                                <div className="tipo-usuario-bolinhas">
-                                    <span />
-                                    <span />
-                                    <span />
-                                </div>
-
-                                <div className="tipo-usuario-linhas">
-                                    <span />
-                                    <span />
-                                    <span />
-                                    <span />
-                                </div>
-                            </div>
-
-                            <div className="tipo-usuario-avatar">
-                                <div className="tipo-usuario-cabelo" />
-                                <div className="tipo-usuario-rosto" />
-                                <div className="tipo-usuario-corpo" />
-                                <span className="tipo-usuario-mais">+</span>
-                            </div>
+                        <div className="tipo-usuario-ilustracao">
+                            <img src={imagemUsuario} alt="Ilustração tipo de usuário" />
                         </div>
 
                         <form
@@ -174,7 +152,7 @@ function TipoUsuario() {
                                 name="titulo"
                                 type="text"
                                 value={titulo}
-                                onChange={(event) => setTitulo(event.target.value)}
+                                onChange={(e) => setTitulo(e.target.value)}
                                 placeholder="Título"
                                 maxLength={100}
                                 required
@@ -185,17 +163,18 @@ function TipoUsuario() {
                                     enviando
                                         ? "Salvando..."
                                         : idEmEdicao
-                                          ? "Atualizar"
-                                          : "Cadastrar"
+                                            ? "Atualizar"
+                                            : "Cadastrar"
                                 }
                                 type="submit"
                                 disabled={enviando}
+                                className="tipo-usuario-btn-cadastrar"
                             />
 
                             {idEmEdicao && (
                                 <button
-                                    className="tipo-usuario-cancelar"
                                     type="button"
+                                    className="tipo-usuario-cancelar"
                                     onClick={limpar}
                                     disabled={enviando}
                                 >
@@ -204,20 +183,16 @@ function TipoUsuario() {
                             )}
 
                             {mensagem && (
-                                <p
-                                    className="tipo-usuario-mensagem"
-                                    role="alert"
-                                >
-                                    {mensagem}
-                                </p>
+                                <p role="alert">{mensagem}</p>
                             )}
                         </form>
                     </div>
                 </section>
 
-                <section className="tipo-usuario-lista">
+                <section className="tipo-usuario-lista-section">
                     <div className="tipo-usuario-lista-container">
                         <h2>LISTA TIPO DE USUÁRIOS</h2>
+
                         <hr className="tipo-usuario-linha-lista" />
 
                         <table className="tipo-usuario-tabela">
@@ -232,12 +207,14 @@ function TipoUsuario() {
                             <tbody>
                                 {carregando ? (
                                     <tr>
-                                        <td colSpan={3}>Carregando...</td>
+                                        <td colSpan={3}>
+                                            Carregando...
+                                        </td>
                                     </tr>
                                 ) : tipos.length === 0 ? (
                                     <tr>
                                         <td colSpan={3}>
-                                            Nenhum tipo de usuário cadastrado.
+                                            Nenhum tipo de usuário cadastrado
                                         </td>
                                     </tr>
                                 ) : (
@@ -248,22 +225,26 @@ function TipoUsuario() {
                                             <td>
                                                 <button
                                                     type="button"
-                                                    className="tipo-usuario-acao"
                                                     aria-label={`Editar ${item.titulo}`}
                                                     onClick={() => editar(item)}
                                                 >
-                                                    <img src={lapis} alt="Editar" />
+                                                    <img
+                                                        src={lapis}
+                                                        alt="Editar"
+                                                    />
                                                 </button>
                                             </td>
 
                                             <td>
                                                 <button
                                                     type="button"
-                                                    className="tipo-usuario-acao"
                                                     aria-label={`Excluir ${item.titulo}`}
                                                     onClick={() => setSelecionado(item)}
                                                 >
-                                                    <img src={lixeira} alt="Excluir" />
+                                                    <img
+                                                        src={lixeira}
+                                                        alt="Deletar"
+                                                    />
                                                 </button>
                                             </td>
                                         </tr>
@@ -276,7 +257,7 @@ function TipoUsuario() {
 
                 <ModalConfirmacao
                     show={Boolean(selecionado)}
-                    titulo="Excluir tipo de usuário"
+                    titulo="Excluir Tipo de Usuário"
                     mensagem={
                         selecionado
                             ? `Deseja excluir "${selecionado.titulo}"?`

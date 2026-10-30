@@ -1,33 +1,30 @@
-*{
- 
-margin: 0;
-padding: 0;
-box-sizing: border-box;  
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-
-min-width: 320px;
-
-min-height: 100vh;
-
-font-family: "Poppins", Arial, sans-serif;
-color: #151515;
-background: #ffffff;
+html {
+    scroll-behavior: smooth;
 }
 
-img{
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    font-family: "Poppins", Arial, sans-serif;
+    color: #151515;
+    background: #ffffff;
+}
 
-  display: block;
-  max-width: 100%;
+img {
+    display: block;
+    max-width: 100%;
 }
 
 a,
 button,
 input,
 select,
-textarea{
-
-  font: inherit;
+textarea {
+    font: inherit;
 }

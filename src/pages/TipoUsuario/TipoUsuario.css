@@ -1,274 +1,206 @@
-
 .tipo-usuario-page {
     width: 100%;
-    color: #171717;
     font-family: "Poppins", Arial, sans-serif;
-    background: #ffffff;
+    background-color: #ffffff;
 }
 
-/* CADASTRO */
-
 .tipo-usuario-cadastro {
-    min-height: 340px;
-    padding: 35px 8% 50px;
-    background: #ffffff;
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 40px 0 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .tipo-usuario-titulo {
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #b51d44;
-    color: #252033;
-    font-size: 17px;
+    font-size: 1.15rem;
     font-weight: 700;
-    text-align: center;
+    color: #17143f;
     text-transform: uppercase;
+    margin: 0;
+    text-align: center;
     letter-spacing: 0.5px;
+}
+
+.tipo-usuario-linha-titulo {
+    border: none;
+    border-top: 2.5px solid #b51d44;
+    width: 60px;
+    margin: 8px auto 44px;
 }
 
 .tipo-usuario-conteudo {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 650px;
-    margin: 40px auto 0;
+    width: 100%;
+    gap: 60px;
 }
 
-/* FORMULÁRIO */
+.tipo-usuario-ilustracao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 380px;
+}
+
+.tipo-usuario-ilustracao img {
+    width: 100%;
+    height: auto;
+}
 
 .tipo-usuario-formulario {
+    width: 100%;
+    max-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 440px;
-    padding: 28px;
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    background: #ffffff;
-    box-shadow: 0 4px 18px rgba(37, 32, 51, 0.07);
+    gap: 24px;
 }
 
-.tipo-usuario-formulario input {
+.tipo-usuario-formulario .campo {
     width: 100%;
-    min-height: 44px;
-    padding: 10px 13px;
-    border: 1px solid #d7d7d7;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1.5px solid #a8a8a8;
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 0;
+    font-size: 0.95rem;
+    color: #17143f;
     outline: none;
-    background: #ffffff;
-    color: #252033;
-    font-family: inherit;
-    font-size: 14px;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s ease;
 }
 
-.tipo-usuario-formulario input:focus {
-    border-color: #b51d44;
-    box-shadow: 0 0 0 3px rgba(181, 29, 68, 0.10);
+.tipo-usuario-formulario .campo::placeholder {
+    color: #a8a8a8;
 }
 
-.tipo-usuario-formulario button[type="submit"] {
+.tipo-usuario-formulario .campo:focus {
+    border-bottom: 1.5px solid #b51d44;
+}
+
+.tipo-usuario-btn-cadastrar {
     width: 100%;
-    min-height: 44px;
-    border-radius: 5px;
+    background-color: #b51d44;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.tipo-usuario-btn-cadastrar:hover {
+    background-color: #961737;
 }
 
 .tipo-usuario-cancelar {
-    min-height: 40px;
-    padding: 9px 14px;
+    background: transparent;
     border: 1px solid #b51d44;
-    border-radius: 5px;
     color: #b51d44;
-    background: #ffffff;
-    font-family: inherit;
-    font-size: 13px;
+    padding: 10px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
 }
 
 .tipo-usuario-cancelar:hover {
+    background-color: #b51d44;
     color: #ffffff;
-    background: #b51d44;
 }
 
-.tipo-usuario-cancelar:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.tipo-usuario-mensagem {
-    margin: 0;
-    color: #b51d44;
-    font-size: 13px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
-}
-
-/* LISTA */
-
-.tipo-usuario-lista {
-    min-height: 245px;
-    padding: 38px 8% 50px;
+/* Seção vermelha da lista (Exatamente como na imagem do professor) */
+.tipo-usuario-lista-section {
+    background-color: #b51d44;
     color: #ffffff;
-    background: #b51d44;
+    padding: 48px 0 72px;
+    width: 100%;
 }
 
 .tipo-usuario-lista-container {
-    width: 100%;
-    max-width: 760px;
+    width: min(800px, calc(100% - 48px));
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.tipo-usuario-lista h2 {
-    width: fit-content;
-    max-width: 100%;
-    margin: 0 auto 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+.tipo-usuario-lista-container h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
     color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
+    margin: 0;
     text-align: center;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.5px;
 }
 
-/* TABELA */
+.tipo-usuario-linha-lista {
+    border: none;
+    border-top: 2.5px solid #ffffff;
+    width: 60px;
+    margin: 8px auto 36px;
+}
 
 .tipo-usuario-tabela {
     width: 100%;
     border-collapse: collapse;
     color: #ffffff;
-    font-size: 13px;
-}
-
-.tipo-usuario-tabela thead {
-    background: rgba(90, 0, 25, 0.18);
-}
-
-.tipo-usuario-tabela th,
-.tipo-usuario-tabela td {
-    padding: 14px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    text-align: center;
+    font-size: 0.95rem;
 }
 
 .tipo-usuario-tabela th {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.4);
     font-weight: 600;
 }
 
-.tipo-usuario-tabela th:first-child,
-.tipo-usuario-tabela td:first-child {
-    width: 70%;
-    text-align: left;
+.tipo-usuario-tabela th:nth-child(2),
+.tipo-usuario-tabela th:nth-child(3) {
+    text-align: center;
+    width: 90px;
 }
 
-.tipo-usuario-tabela tbody tr {
-    transition: background 0.2s;
+.tipo-usuario-tabela td {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.tipo-usuario-tabela tbody tr:hover {
-    background: rgba(255, 255, 255, 0.08);
+.tipo-usuario-tabela td:nth-child(2),
+.tipo-usuario-tabela td:nth-child(3) {
+    text-align: center;
 }
 
-.tipo-usuario-acao {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 5px;
-    color: #ffffff;
-    background: transparent;
-    font-family: inherit;
-    font-size: 19px;
+.tipo-usuario-tabela button {
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    padding: 4px;
+    transition: opacity 0.2s ease;
 }
 
-.tipo-usuario-acao:hover {
-    color: #b51d44;
-    background: #ffffff;
+.tipo-usuario-tabela button:hover {
+    opacity: 0.75;
 }
 
-.tipo-usuario-acao:focus-visible,
-.tipo-usuario-cancelar:focus-visible {
-    outline: 2px solid #ffffff;
-    outline-offset: 3px;
+.tipo-usuario-tabela button img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
 }
 
-/* RESPONSIVIDADE */
-
-@media (max-width: 650px) {
-    .tipo-usuario-cadastro {
-        min-height: auto;
-        padding: 28px 6% 38px;
-    }
-
-    .tipo-usuario-titulo {
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
+@media (max-width: 800px) {
     .tipo-usuario-conteudo {
-        margin-top: 28px;
+        flex-direction: column;
+        gap: 32px;
     }
 
-    .tipo-usuario-formulario {
-        max-width: 440px;
-        padding: 22px 18px;
-        gap: 16px;
-    }
-
-    .tipo-usuario-lista {
-        min-height: auto;
-        padding: 30px 5% 40px;
-    }
-
-    .tipo-usuario-lista h2 {
-        margin-bottom: 22px;
-        font-size: 13px;
-    }
-
-    .tipo-usuario-tabela {
-        font-size: 12px;
-    }
-
-    .tipo-usuario-tabela th,
-    .tipo-usuario-tabela td {
-        padding: 11px 7px;
-    }
-
-    .tipo-usuario-tabela th:first-child,
-    .tipo-usuario-tabela td:first-child {
-        width: 60%;
-    }
-
-    .tipo-usuario-acao {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-@media (max-width: 360px) {
-    .tipo-usuario-titulo {
-        font-size: 12px;
-    }
-
-    .tipo-usuario-formulario {
-        padding: 18px 12px;
-    }
-
-    .tipo-usuario-tabela {
-        font-size: 11px;
-    }
-
-    .tipo-usuario-tabela th,
-    .tipo-usuario-tabela td {
-        padding: 10px 4px;
+    .tipo-usuario-ilustracao {
+        max-width: 280px;
     }
 }
